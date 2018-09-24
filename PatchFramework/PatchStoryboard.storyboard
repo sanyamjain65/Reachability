@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14113" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14088"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--Patch Call Screen-->
+        <scene sceneID="Oef-r2-sK6">
+            <objects>
+                <viewController storyboardIdentifier="PatchCallScreen" id="sjT-HR-a1c" customClass="PatchCallScreen" customModule="PatchFramework" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="ZJL-au-S99">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="HCZ-ku-zz7">
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                                <color key="backgroundColor" red="0.18039215689999999" green="0.20784313730000001" blue="0.34509803919999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            </imageView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Trainer Calling" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PU1-Xt-kZK">
+                                <rect key="frame" x="132" y="70" width="119" height="20"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="20" id="SEW-fV-P6P"/>
+                                    <constraint firstAttribute="width" constant="119" id="VX3-GX-efn"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="Helvetica-Bold" family="Helvetica" pointSize="17"/>
+                                <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Trainer's Name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Qah-g5-OyG">
+                                <rect key="frame" x="130" y="108" width="122" height="20"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="20" id="51B-35-eZ7"/>
+                                    <constraint firstAttribute="width" constant="122" id="amh-Gq-eRl"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="Helvetica-Bold" family="Helvetica" pointSize="17"/>
+                                <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="healthifyme.png" translatesAutoresizingMaskIntoConstraints="NO" id="ieq-RE-7gm">
+                                <rect key="frame" x="67" y="182" width="240" height="72"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="240" id="0Sz-w0-FWe"/>
+                                    <constraint firstAttribute="height" constant="72" id="duy-Vo-ITc"/>
+                                </constraints>
+                            </imageView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="00:00:00" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pYd-Us-3Zk">
+                                <rect key="frame" x="153" y="347" width="69" height="20"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="69" id="AHU-Q7-8QG"/>
+                                    <constraint firstAttribute="height" constant="20" id="VTU-K7-zPY"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="Helvetica-Bold" family="Helvetica" pointSize="17"/>
+                                <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Diet consultation" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gAK-ZD-gO7">
+                                <rect key="frame" x="122" y="310" width="138" height="20"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="20" id="5K0-zY-S8n"/>
+                                    <constraint firstAttribute="width" constant="138" id="T2D-87-pxb"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="Helvetica-Bold" family="Helvetica" pointSize="17"/>
+                                <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageSizeForAccessibilityContentSizeCategory="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ZnP-kg-pHy">
+                                <rect key="frame" x="160" y="592" width="55" height="55"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="55" id="S3C-6C-H26"/>
+                                    <constraint firstAttribute="height" constant="55" id="cq2-u6-o8d"/>
+                                </constraints>
+                                <state key="normal" title="Button" image="disconnect.png"/>
+                                <connections>
+                                    <action selector="endCall" destination="sjT-HR-a1c" eventType="touchUpInside" id="Syh-IU-UZh"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="456-7b-M6w">
+                                <rect key="frame" x="16" y="592" width="55" height="55"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="55" id="EmM-mr-ETP"/>
+                                    <constraint firstAttribute="width" constant="55" id="xgx-zK-6jK"/>
+                                </constraints>
+                                <state key="normal" title="Button" image="Group 386.png"/>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="FhR-Th-jmq">
+                                <rect key="frame" x="304" y="592" width="55" height="55"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="55" id="CFJ-G3-Rma"/>
+                                    <constraint firstAttribute="width" constant="55" id="lr0-R5-AAr"/>
+                                </constraints>
+                                <state key="normal" title="Button" image="Group 387.png"/>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="567-xf-xr1" firstAttribute="trailing" secondItem="FhR-Th-jmq" secondAttribute="trailing" constant="16" id="0C8-Oy-mfz"/>
+                            <constraint firstItem="pYd-Us-3Zk" firstAttribute="top" secondItem="gAK-ZD-gO7" secondAttribute="bottom" constant="17" id="1Ql-FI-d9Q"/>
+                            <constraint firstItem="567-xf-xr1" firstAttribute="bottom" secondItem="FhR-Th-jmq" secondAttribute="bottom" constant="20" id="9S4-uM-AWY"/>
+                            <constraint firstItem="Qah-g5-OyG" firstAttribute="top" secondItem="PU1-Xt-kZK" secondAttribute="bottom" constant="18" id="B6F-Xj-uaH"/>
+                            <constraint firstItem="567-xf-xr1" firstAttribute="bottom" secondItem="ZnP-kg-pHy" secondAttribute="bottom" constant="20" id="BMK-EG-sxi"/>
+                            <constraint firstItem="Qah-g5-OyG" firstAttribute="centerX" secondItem="PU1-Xt-kZK" secondAttribute="centerX" id="CA5-8Y-5UJ"/>
+                            <constraint firstItem="HCZ-ku-zz7" firstAttribute="leading" secondItem="ZJL-au-S99" secondAttribute="leading" id="GFK-h8-Qho"/>
+                            <constraint firstItem="456-7b-M6w" firstAttribute="leading" secondItem="567-xf-xr1" secondAttribute="leading" constant="16" id="HVK-q8-EDq"/>
+                            <constraint firstItem="gAK-ZD-gO7" firstAttribute="centerX" secondItem="ieq-RE-7gm" secondAttribute="centerX" constant="4" id="R2T-GA-ugN"/>
+                            <constraint firstItem="HCZ-ku-zz7" firstAttribute="top" secondItem="PU1-Xt-kZK" secondAttribute="bottom" constant="-90" id="VaQ-0Q-x1H"/>
+                            <constraint firstItem="gAK-ZD-gO7" firstAttribute="top" secondItem="ieq-RE-7gm" secondAttribute="bottom" constant="56" id="WvV-1Y-WUS"/>
+                            <constraint firstItem="ieq-RE-7gm" firstAttribute="centerX" secondItem="Qah-g5-OyG" secondAttribute="centerX" constant="-4" id="cB2-Vb-1NX"/>
+                            <constraint firstItem="PU1-Xt-kZK" firstAttribute="centerX" secondItem="HCZ-ku-zz7" secondAttribute="centerX" constant="4" id="eVa-tu-yrq"/>
+                            <constraint firstItem="ZnP-kg-pHy" firstAttribute="centerX" secondItem="HCZ-ku-zz7" secondAttribute="centerX" id="lLz-cH-aBL"/>
+                            <constraint firstItem="567-xf-xr1" firstAttribute="bottom" secondItem="456-7b-M6w" secondAttribute="bottom" constant="20" id="mfw-xx-SRv"/>
+                            <constraint firstItem="HCZ-ku-zz7" firstAttribute="bottom" secondItem="567-xf-xr1" secondAttribute="bottom" id="qUO-pQ-8CV"/>
+                            <constraint firstItem="pYd-Us-3Zk" firstAttribute="centerX" secondItem="gAK-ZD-gO7" secondAttribute="centerX" constant="-3.5" id="qXT-4t-TRX"/>
+                            <constraint firstItem="HCZ-ku-zz7" firstAttribute="width" secondItem="ZJL-au-S99" secondAttribute="width" id="rTK-Pl-Wnu"/>
+                            <constraint firstItem="ieq-RE-7gm" firstAttribute="top" secondItem="Qah-g5-OyG" secondAttribute="bottom" constant="54" id="wQh-en-g5h"/>
+                            <constraint firstItem="HCZ-ku-zz7" firstAttribute="height" secondItem="ZJL-au-S99" secondAttribute="height" id="wnj-Xu-emS"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="567-xf-xr1"/>
+                    </view>
+                    <connections>
+                        <outlet property="callContext" destination="gAK-ZD-gO7" id="PrV-3i-rli"/>
+                        <outlet property="timerLabel" destination="pYd-Us-3Zk" id="6m8-8p-0l0"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="9xb-F6-Zrp" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-336.80000000000001" y="62.518740629685162"/>
+        </scene>
+    </scenes>
+    <resources>
+        <image name="Group 386.png" width="57" height="57"/>
+        <image name="Group 387.png" width="57" height="57"/>
+        <image name="disconnect.png" width="200" height="200"/>
+        <image name="healthifyme.png" width="177" height="72"/>
+    </resources>
+</document>
