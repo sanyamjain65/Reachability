@@ -12,7 +12,8 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="PatchCallScreen" customModule="PatchFramework" customModuleProvider="target">
             <connections>
-                <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
+                <outlet property="callLabel" destination="DjW-5v-8j4" id="jJt-N2-ZlO"/>
+                <outlet property="timerLabel" destination="C65-at-9gP" id="tzg-BE-DG6"/>
             </connections>
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
@@ -74,13 +75,6 @@
                         <constraint firstAttribute="width" constant="55" id="Cc7-aX-gdQ"/>
                     </constraints>
                 </imageView>
-                <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="disconnect.png" translatesAutoresizingMaskIntoConstraints="NO" id="qkL-T2-07Y">
-                    <rect key="frame" x="160" y="592" width="55" height="55"/>
-                    <constraints>
-                        <constraint firstAttribute="height" constant="55" id="TeH-cz-BT3"/>
-                        <constraint firstAttribute="width" constant="55" id="ecn-U7-F3M"/>
-                    </constraints>
-                </imageView>
                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Group 387.png" translatesAutoresizingMaskIntoConstraints="NO" id="lda-JF-6kH">
                     <rect key="frame" x="288" y="590" width="57" height="57"/>
                     <constraints>
@@ -88,12 +82,23 @@
                         <constraint firstAttribute="height" constant="57" id="lSm-ti-VJn"/>
                     </constraints>
                 </imageView>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Af4-Qq-tcr">
+                    <rect key="frame" x="160" y="590" width="55" height="55"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="55" id="8OP-A2-Utq"/>
+                        <constraint firstAttribute="width" constant="55" id="ADi-42-cAX"/>
+                    </constraints>
+                    <state key="normal" image="disconnect.png"/>
+                    <connections>
+                        <action selector="close" destination="-1" eventType="touchUpInside" id="9xe-Ij-W1M"/>
+                    </connections>
+                </button>
             </subviews>
             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
                 <constraint firstItem="fRu-te-UuU" firstAttribute="centerX" secondItem="1a1-2C-nx3" secondAttribute="centerX" id="0ip-2n-wz5"/>
-                <constraint firstItem="fnl-2z-Ty3" firstAttribute="bottom" secondItem="qkL-T2-07Y" secondAttribute="bottom" constant="20" id="1vG-6G-5iP"/>
                 <constraint firstItem="fRu-te-UuU" firstAttribute="top" secondItem="1a1-2C-nx3" secondAttribute="bottom" constant="44" id="2BK-Jb-6kN"/>
+                <constraint firstItem="Af4-Qq-tcr" firstAttribute="centerX" secondItem="Lgc-dv-YXS" secondAttribute="centerX" id="3ff-qT-ozW"/>
                 <constraint firstItem="1a1-2C-nx3" firstAttribute="centerX" secondItem="hzo-R8-6tL" secondAttribute="centerX" id="3gr-RU-jAE"/>
                 <constraint firstItem="hzo-R8-6tL" firstAttribute="centerX" secondItem="Lgc-dv-YXS" secondAttribute="centerX" id="5jN-by-87p"/>
                 <constraint firstItem="Lgc-dv-YXS" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="5jW-B2-pIj"/>
@@ -107,9 +112,9 @@
                 <constraint firstItem="C65-at-9gP" firstAttribute="top" secondItem="fRu-te-UuU" secondAttribute="bottom" constant="49" id="eOw-qI-Xks"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="bottom" secondItem="201-yA-f6Z" secondAttribute="bottom" constant="20" id="id1-zR-5fA"/>
                 <constraint firstItem="DjW-5v-8j4" firstAttribute="top" secondItem="C65-at-9gP" secondAttribute="bottom" constant="8" id="iw2-rg-V7X"/>
-                <constraint firstItem="qkL-T2-07Y" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="jGd-pL-IDf"/>
                 <constraint firstItem="Lgc-dv-YXS" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="jqR-as-9q8"/>
                 <constraint firstItem="fnl-2z-Ty3" firstAttribute="bottom" secondItem="lda-JF-6kH" secondAttribute="bottom" constant="20" id="mBD-Ix-yVe"/>
+                <constraint firstItem="fnl-2z-Ty3" firstAttribute="bottom" secondItem="Af4-Qq-tcr" secondAttribute="bottom" constant="22" id="nnH-Vy-lMv"/>
                 <constraint firstItem="Lgc-dv-YXS" firstAttribute="bottom" secondItem="fnl-2z-Ty3" secondAttribute="bottom" id="s5r-pk-2e5"/>
             </constraints>
             <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
