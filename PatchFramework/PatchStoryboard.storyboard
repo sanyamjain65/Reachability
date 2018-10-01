@@ -13,7 +13,7 @@
         <!--Patch Call Screen-->
         <scene sceneID="Oef-r2-sK6">
             <objects>
-                <viewController storyboardIdentifier="PatchCallScreen" id="sjT-HR-a1c" customClass="PatchCallScreen" customModule="PatchFramework" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="PatchCallScreen" useStoryboardIdentifierAsRestorationIdentifier="YES" id="sjT-HR-a1c" customClass="PatchCallScreen" customModule="PatchFramework" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="ZJL-au-S99">
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -122,14 +122,11 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="567-xf-xr1"/>
                     </view>
-                    <connections>
-                        <outlet property="callContext" destination="gAK-ZD-gO7" id="PrV-3i-rli"/>
-                        <outlet property="timerLabel" destination="pYd-Us-3Zk" id="6m8-8p-0l0"/>
-                    </connections>
+                    <navigationItem key="navigationItem" id="8Px-0O-Ery"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="9xb-F6-Zrp" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-336.80000000000001" y="62.518740629685162"/>
+            <point key="canvasLocation" x="2480.8000000000002" y="62.518740629685162"/>
         </scene>
     </scenes>
     <resources>

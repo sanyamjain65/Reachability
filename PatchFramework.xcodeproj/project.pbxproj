@@ -18,10 +18,7 @@
 		D9B3F8C521510E2C00AB46D2 /* PatchFrameworkTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9B3F8C421510E2C00AB46D2 /* PatchFrameworkTests.swift */; };
 		D9B3F8C721510E2C00AB46D2 /* PatchFramework.h in Headers */ = {isa = PBXBuildFile; fileRef = D9B3F8B921510E2C00AB46D2 /* PatchFramework.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		D9B3F8D721510E5000AB46D2 /* PatchApiCall.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9B3F8D021510E4F00AB46D2 /* PatchApiCall.swift */; };
-		D9B3F8D821510E5000AB46D2 /* PatchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9B3F8D121510E4F00AB46D2 /* PatchView.swift */; };
 		D9B3F8D921510E5000AB46D2 /* APIEndpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9B3F8D221510E4F00AB46D2 /* APIEndpoint.swift */; };
-		D9B3F8DA21510E5000AB46D2 /* PatchView.xib in Resources */ = {isa = PBXBuildFile; fileRef = D9B3F8D321510E4F00AB46D2 /* PatchView.xib */; };
-		D9B3F8DB21510E5000AB46D2 /* PatchCallScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = D9B3F8D421510E4F00AB46D2 /* PatchCallScreen.xib */; };
 		D9B3F8DC21510E5000AB46D2 /* PatchCallScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9B3F8D521510E4F00AB46D2 /* PatchCallScreen.swift */; };
 		D9B3F8DF21510E6E00AB46D2 /* PatchDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9B3F8DE21510E6E00AB46D2 /* PatchDelegate.swift */; };
 		D9B3F8E121510EEB00AB46D2 /* CallCFunction.h in Headers */ = {isa = PBXBuildFile; fileRef = D9B3F8E021510EEB00AB46D2 /* CallCFunction.h */; };
@@ -52,6 +49,14 @@
 		D9B3FA6121523FEF00AB46D2 /* CallKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D9B3FA6021523FEF00AB46D2 /* CallKit.framework */; };
 		D9E451082158F9A5008B1F8B /* disconnect.png in Resources */ = {isa = PBXBuildFile; fileRef = D94F2E3D2153C5AE00107679 /* disconnect.png */; };
 		D9E451092158F9A9008B1F8B /* connect.png in Resources */ = {isa = PBXBuildFile; fileRef = D94F2E2E2153C5AA00107679 /* connect.png */; };
+		D9E4510B215A69C2008B1F8B /* CallScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9E4510A215A69C2008B1F8B /* CallScreen.swift */; };
+		D9E4510D215A69FB008B1F8B /* CallScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = D9E4510C215A69FB008B1F8B /* CallScreen.xib */; };
+		D9E4510F215BAA96008B1F8B /* PatchCallScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = D9E4510E215BAA96008B1F8B /* PatchCallScreen.xib */; };
+		D9E45120215CFB19008B1F8B /* ProviderDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9E4511F215CFB19008B1F8B /* ProviderDelegate.swift */; };
+		D9E45124215CFE2B008B1F8B /* Call.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9E45122215CFE2B008B1F8B /* Call.swift */; };
+		D9E45125215CFE2B008B1F8B /* CallManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9E45123215CFE2B008B1F8B /* CallManager.swift */; };
+		D9E45128215CFE73008B1F8B /* Audio.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9E45127215CFE72008B1F8B /* Audio.swift */; };
+		D9E4512B215D0F0C008B1F8B /* Singleton.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9E4512A215D0F0C008B1F8B /* Singleton.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -251,10 +256,7 @@
 		D9B3F8C421510E2C00AB46D2 /* PatchFrameworkTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PatchFrameworkTests.swift; sourceTree = "<group>"; };
 		D9B3F8C621510E2C00AB46D2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D9B3F8D021510E4F00AB46D2 /* PatchApiCall.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PatchApiCall.swift; sourceTree = "<group>"; };
-		D9B3F8D121510E4F00AB46D2 /* PatchView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PatchView.swift; sourceTree = "<group>"; };
 		D9B3F8D221510E4F00AB46D2 /* APIEndpoint.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = APIEndpoint.swift; sourceTree = "<group>"; };
-		D9B3F8D321510E4F00AB46D2 /* PatchView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PatchView.xib; sourceTree = "<group>"; };
-		D9B3F8D421510E4F00AB46D2 /* PatchCallScreen.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PatchCallScreen.xib; sourceTree = "<group>"; };
 		D9B3F8D521510E4F00AB46D2 /* PatchCallScreen.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PatchCallScreen.swift; sourceTree = "<group>"; };
 		D9B3F8DE21510E6E00AB46D2 /* PatchDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PatchDelegate.swift; sourceTree = "<group>"; };
 		D9B3F8E021510EEB00AB46D2 /* CallCFunction.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CallCFunction.h; sourceTree = "<group>"; };
@@ -283,6 +285,14 @@
 		D9B3F9A721511F6C00AB46D2 /* Alamofire.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Alamofire.xcodeproj; path = Alamofire/Alamofire.xcodeproj; sourceTree = "<group>"; };
 		D9B3F9CC2151208B00AB46D2 /* PushKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PushKit.framework; path = System/Library/Frameworks/PushKit.framework; sourceTree = SDKROOT; };
 		D9B3FA6021523FEF00AB46D2 /* CallKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CallKit.framework; path = System/Library/Frameworks/CallKit.framework; sourceTree = SDKROOT; };
+		D9E4510A215A69C2008B1F8B /* CallScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CallScreen.swift; sourceTree = "<group>"; };
+		D9E4510C215A69FB008B1F8B /* CallScreen.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CallScreen.xib; sourceTree = "<group>"; };
+		D9E4510E215BAA96008B1F8B /* PatchCallScreen.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PatchCallScreen.xib; sourceTree = "<group>"; };
+		D9E4511F215CFB19008B1F8B /* ProviderDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProviderDelegate.swift; sourceTree = "<group>"; };
+		D9E45122215CFE2B008B1F8B /* Call.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Call.swift; sourceTree = "<group>"; };
+		D9E45123215CFE2B008B1F8B /* CallManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CallManager.swift; sourceTree = "<group>"; };
+		D9E45127215CFE72008B1F8B /* Audio.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Audio.swift; sourceTree = "<group>"; };
+		D9E4512A215D0F0C008B1F8B /* Singleton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Singleton.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -409,6 +419,9 @@
 				D94AFA8621551B26009CFDE5 /* Starscream.framework */,
 				D94AFA8321551B24009CFDE5 /* SwiftyJSON.framework */,
 				D9B3F90F215110D400AB46D2 /* PatchFrameworkPrivate */,
+				D9E45126215CFE53008B1F8B /* Audio */,
+				D9E45121215CFDEE008B1F8B /* Call Management */,
+				D9E45129215D0EE8008B1F8B /* Singleton Classes */,
 				D9B3F8DE21510E6E00AB46D2 /* PatchDelegate.swift */,
 				D94AFBB12158D0EF009CFDE5 /* Group 386.png */,
 				D94AFBAD2158D084009CFDE5 /* healthifyme@2x.png */,
@@ -418,9 +431,7 @@
 				D94F2E2E2153C5AA00107679 /* connect.png */,
 				D9B3F8D021510E4F00AB46D2 /* PatchApiCall.swift */,
 				D9B3F8D521510E4F00AB46D2 /* PatchCallScreen.swift */,
-				D9B3F8D421510E4F00AB46D2 /* PatchCallScreen.xib */,
-				D9B3F8D121510E4F00AB46D2 /* PatchView.swift */,
-				D9B3F8D321510E4F00AB46D2 /* PatchView.xib */,
+				D9E4510E215BAA96008B1F8B /* PatchCallScreen.xib */,
 				D9B3F8B921510E2C00AB46D2 /* PatchFramework.h */,
 				D9B3F8BA21510E2C00AB46D2 /* Info.plist */,
 				D9B3F8E021510EEB00AB46D2 /* CallCFunction.h */,
@@ -428,6 +439,9 @@
 				D9B3F8E821510FB900AB46D2 /* PJSUAWrapper.m */,
 				D99EA0F221537BD70085299D /* Sigsock.swift */,
 				D94AFBB32158D8D4009CFDE5 /* PatchStoryboard.storyboard */,
+				D9E4510A215A69C2008B1F8B /* CallScreen.swift */,
+				D9E4510C215A69FB008B1F8B /* CallScreen.xib */,
+				D9E4511F215CFB19008B1F8B /* ProviderDelegate.swift */,
 			);
 			path = PatchFramework;
 			sourceTree = "<group>";
@@ -467,6 +481,31 @@
 				D9B3F9BF21511F6C00AB46D2 /* Alamofire.framework */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		D9E45121215CFDEE008B1F8B /* Call Management */ = {
+			isa = PBXGroup;
+			children = (
+				D9E45122215CFE2B008B1F8B /* Call.swift */,
+				D9E45123215CFE2B008B1F8B /* CallManager.swift */,
+			);
+			path = "Call Management";
+			sourceTree = "<group>";
+		};
+		D9E45126215CFE53008B1F8B /* Audio */ = {
+			isa = PBXGroup;
+			children = (
+				D9E45127215CFE72008B1F8B /* Audio.swift */,
+			);
+			path = Audio;
+			sourceTree = "<group>";
+		};
+		D9E45129215D0EE8008B1F8B /* Singleton Classes */ = {
+			isa = PBXGroup;
+			children = (
+				D9E4512A215D0F0C008B1F8B /* Singleton.swift */,
+			);
+			path = "Singleton Classes";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -720,10 +759,10 @@
 				D94AFBB02158D0D8009CFDE5 /* Group 387.png in Resources */,
 				D94AFBB42158D8D4009CFDE5 /* PatchStoryboard.storyboard in Resources */,
 				D9E451082158F9A5008B1F8B /* disconnect.png in Resources */,
-				D9B3F8DB21510E5000AB46D2 /* PatchCallScreen.xib in Resources */,
 				D9B3F910215110D400AB46D2 /* PatchFrameworkPrivate in Resources */,
+				D9E4510F215BAA96008B1F8B /* PatchCallScreen.xib in Resources */,
+				D9E4510D215A69FB008B1F8B /* CallScreen.xib in Resources */,
 				D94AFBB22158D0EF009CFDE5 /* Group 386.png in Resources */,
-				D9B3F8DA21510E5000AB46D2 /* PatchView.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -742,12 +781,17 @@
 			buildActionMask = 2147483647;
 			files = (
 				D99EA0F321537BD70085299D /* Sigsock.swift in Sources */,
+				D9E4512B215D0F0C008B1F8B /* Singleton.swift in Sources */,
+				D9E45124215CFE2B008B1F8B /* Call.swift in Sources */,
+				D9E45128215CFE73008B1F8B /* Audio.swift in Sources */,
 				D9B3F8DF21510E6E00AB46D2 /* PatchDelegate.swift in Sources */,
 				D9B3F8E921510FB900AB46D2 /* PJSUAWrapper.m in Sources */,
 				D9B3F8DC21510E5000AB46D2 /* PatchCallScreen.swift in Sources */,
 				D9B3F8D721510E5000AB46D2 /* PatchApiCall.swift in Sources */,
 				D9B3F8D921510E5000AB46D2 /* APIEndpoint.swift in Sources */,
-				D9B3F8D821510E5000AB46D2 /* PatchView.swift in Sources */,
+				D9E4510B215A69C2008B1F8B /* CallScreen.swift in Sources */,
+				D9E45120215CFB19008B1F8B /* ProviderDelegate.swift in Sources */,
+				D9E45125215CFE2B008B1F8B /* CallManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -951,6 +995,7 @@
 					"$(PROJECT_DIR)",
 				);
 				MODULEMAP_PRIVATE_FILE = "";
+				OTHER_LDFLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = com.patch.PatchFramework;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -998,6 +1043,7 @@
 					"$(PROJECT_DIR)",
 				);
 				MODULEMAP_PRIVATE_FILE = "";
+				OTHER_LDFLAGS = "";
 				PRODUCT_BUNDLE_IDENTIFIER = com.patch.PatchFramework;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
