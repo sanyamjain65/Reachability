@@ -9,107 +9,252 @@
 import UIKit
 import PatchFrameworkPrivate
 import SocketIO
+import AVFoundation
 
 class PatchCallScreen: UIView {
     var callManager: CallManager!
     var pjsipInstance: PJSUAWrapper = PJSUAWrapper()
     var timer = Timer()
+    var declineTimer = Timer()
+    var callVoipTimer = Timer()
+    var callTimer = Timer()
     var seconds = 0;
+    var sec = 2;
+    var declineSeconds = 3;
+    var callingSeconds = 60
+    var speakerStatus : Bool = false
+    var muteStatus: Bool = false
     var isTimerRunning = false
     let nibName = "PatchCallScreen"
     var contentView: UIView!
     var  manager: SocketManager? = nil
     var socket: SocketIOClient? = nil
+    var player: AVAudioPlayer?
+    var uiFrame: CGRect?
+    var alone: Bool = false
+    let ss = PatchDelegate.sigsockInstance
     @IBOutlet weak var timerLabel: UILabel!
     @IBOutlet weak var callLabel: UILabel!
+    @IBOutlet weak var callStatus: UILabel!
+    @IBOutlet weak var speaker: UIButton!
+    @IBOutlet weak var mute: UIButton!
     override init(frame: CGRect) {
         // For use in code
         super.init(frame: frame)
+        uiFrame = frame
         setUpView()
     }
-    
     
     required init?(coder aDecoder: NSCoder) {
         // For use in Interface Builder
         super.init(coder: aDecoder)
         setUpView()
     }
-
+    
     private func setUpView() {
         let bundle = Bundle(for: type(of: self))
         let nib = UINib(nibName: self.nibName, bundle: bundle)
-        self.contentView = nib.instantiate(withOwner: self, options: nil).first as! UIView
-
+        self.contentView = nib.instantiate(withOwner: self, options: nil).first as? UIView
         contentView.center = self.center
+        contentView.bounds = uiFrame!
         contentView.autoresizingMask = []
         contentView.translatesAutoresizingMaskIntoConstraints = true
         addSubview(contentView)
-        
-//        startPjsip()
+        callStatus.text = "Dialling"
     }
     
-    func startPjsip() {
-//        print("call context is \(context)")
-//        callLabel.text = context
-        
-        
-        
-    }
-    
-    func initCallSock() {
-        callManager = PatchDelegate.callManager
+    func onAnswer() {
+        callTimer.invalidate()
+        player?.stop()
+        callStatus.isHidden = true
+        timerLabel.isHidden = false
+        speaker.isHidden = false
+        mute.isHidden = false
         self.startTimer()
-        manager = SocketManager(socketURL:  URL(string: "http://139.59.22.182:8088:7503")!, config:[.log(true), .forceNew(true),.reconnectAttempts(5),.reconnectWait(6000),.connectParams(["jwt":""]),.forceWebsockets(true),.compress])
+//        print("call id in patch call screen is \(Singleton.shared.getCallId())")
+        let preferences  = UserDefaults.standard
+        let cc = preferences.object(forKey: "cc") as! String
+        let phone = preferences.object(forKey: "phone") as! String
+        let apikey = preferences.object(forKey: "apikey")
+        let accountId = preferences.object(forKey: "accountId")
+        let authData: [String: Any] = [
+            "platform": "ios",
+            "apikey": apikey,
+            "accountId": accountId,
+            "cc": cc,
+            "phone": phone,
+            "callId": Singleton.shared.getCallId()
+        ]
+        manager = SocketManager(socketURL:  URL(string: "https://" + Singleton.shared.getHost() + ":3001")!, config:[.log(true),.forceNew(true),.reconnectAttempts(5),.reconnectWait(6000),.connectParams(["jwt":Singleton.shared.getJwtToken()]), .forceWebsockets(true),.compress])
         socket = manager?.defaultSocket
         
         socket?.on(clientEvent: .connect) {data, ack in
-            print("socket connected")
+//            print("socket connected")
         }
         socket?.on(clientEvent: .disconnect) {data, ack in
-            print("socket disconnected")
-            print(data)
+//            print("socket disconnected")
+//            print(data)
         }
         socket?.on(clientEvent: .error) {data, ack in
-            print("socket error")
-            print(data)
+//            print("socket error")
+//            print(data)
         }
         socket?.on(clientEvent: .statusChange) {data, ack in
-            print("socket status change")
-            print(data)
+//            print("socket status change")
+//            print(data)
         }
-        socket?.on("connection") { data, ack in
-            let status = self.pjsipInstance.start()
-            if (status == "SUCCESS") {
-                Singleton.shared.setPjsipStatus(status: true)
-                self.socket?.emit("call_voip","")
-                print("Pjsua started")
-            } else {
-                Singleton.shared.setPjsipStatus(status: false)
-                print("pjsua registeration failed")
+        socket?.on("connect") { data, ack in
+            print ("auth data is \(authData)")
+            self.socket?.emit("authentication", authData)
+        }
+        socket?.on("authenticated") { data, ack in
+//            print(data)
+            print("calling server connected")
+        }
+        socket?.on("call_status") { data, ack in
+//            print("call status is", data)
+            let dataArray = data as NSArray
+            guard let dataString = dataArray[0] as? NSDictionary else {
+                return
+            }
+            guard let isAlone = dataString["alone"] as? Bool else {
+                return
+            }
+            self.alone = isAlone
+            if (self.alone) {
+                self.close()
             }
         }
-        
+        socket?.on("endpoint_ready") { data, ack in
+//            print ("received endpoint ready")
+            let num: String = cc + phone
+            let status = self.pjsipInstance.start(num, withHost: Singleton.shared.getHost())
+            if (status == "SUCCESS") {
+                Singleton.shared.setPjsipStatus(status: true)
+                self.callVoipTimer = Timer.scheduledTimer(timeInterval: 1, target: self,   selector: (#selector(PatchCallScreen.voipTimer)), userInfo: nil, repeats: true)
+//                print("Pjsua started")
+            } else {
+                Singleton.shared.setPjsipStatus(status: false)
+//                print("pjsua registeration failed")
+            }
+        }
         socket?.connect()
-        
+    }
+    
+    func onDecline() {
+//        print("call declined function is called in patch call screen")
+        callStatus.text = "Declined"
+        player?.stop()
+        self.declineTimer = Timer.scheduledTimer(timeInterval: 1, target: self,   selector: (#selector(PatchCallScreen.startDeclineTimer)), userInfo: nil, repeats: true)
+    }
+    
+    func onMissed() {
+//        print("call missed function is called in patch call screen")
+        callStatus.text = "missed"
+        player?.stop()
+        self.declineTimer = Timer.scheduledTimer(timeInterval: 1, target: self,   selector: (#selector(PatchCallScreen.startDeclineTimer)), userInfo: nil, repeats: true)
+    }
+    
+    func initCallSock(callContext: String, call: String) {
+        if call == "incoming" {
+            callLabel.text = callContext
+            callManager = PatchDelegate.callManager
+            onAnswer()
+        } else {
+            speaker.isHidden = true
+            mute.isHidden = true
+            self.callTimer = Timer.scheduledTimer(timeInterval: 1, target: self,   selector: (#selector(PatchCallScreen.callingTimer)), userInfo: nil, repeats: true)
+            timerLabel.isHidden = true
+            NotificationCenter.default.addObserver(self, selector: #selector(self.messagereceived(notification:)), name: NSNotification.Name(rawValue: "MessageReceived"), object: nil)
+            callLabel.text = callContext
+            callManager = PatchDelegate.callManager
+            guard let url = Bundle.main.url(forResource: "outgoing_tone", withExtension: "mp3") else { return }
+            do {
+                try AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategoryPlayAndRecord)
+                try AVAudioSession.sharedInstance().setActive(true)
+                /* The following line is required for the player to work on iOS 11. Change the file type accordingly*/
+                player = try AVAudioPlayer(contentsOf: url, fileTypeHint: AVFileType.mp3.rawValue)
+                guard let player = player else { return }
+                player.play()
+                player.numberOfLoops = 10
+//                print("Audio started")
+            } catch let error {
+//                print(error.localizedDescription)
+            }
+        }
+    }
+    
+    @objc func messagereceived(notification:Notification)
+    {
+        let message = notification.object as? String
+//        print("event received message is----->\(String(describing: message))")
+        if message == "decline" {
+            onDecline()
+        } else if message == "answer" {
+            onAnswer()
+        } else {
+            onMissed()
+        }
+    }
+    @objc func startDeclineTimer() {
+        declineSeconds -= 1
+        if declineSeconds == 0 {
+            close()
+            self.removeFromSuperview()
+            declineTimer.invalidate()
+        }
+    }
+    
+    @objc func callingTimer() {
+        callingSeconds -= 1
+        if callingSeconds == 0 {
+            close()
+            self.removeFromSuperview()
+            callTimer.invalidate()
+        }
+    }
+
+    @objc func voipTimer() {
+        sec -= 1
+        if sec == 0 {
+//            print("call me voip","")
+            socket?.emitWithAck("call_voip","").timingOut(after: 20) { data in
+//                print("data in call voip \(data)")
+            }
+            callVoipTimer.invalidate()
+        }
     }
     
     @IBAction func close() {
         let call = Call(uuid: Singleton.shared.getUUID(), handle: Singleton.shared.getHandle())
         callManager.end(call: call)
-        pjsipInstance.stop()
+        self.socket?.disconnect()
+        let pjsipstatus: Bool  = Singleton.shared.getPjsipStatus()
+        if pjsipstatus == true {
+//            pjsipInstance.hangup()
+            pjsipInstance.stop()
+        }
         self.removeFromSuperview()
         timer.invalidate()
+        if (!self.alone) {
+            self.socket?.emit("hangup")
+        }
     }
     
     func closeCallkit() {
+//        pjsipInstance.hangup()
         pjsipInstance.stop()
+        self.socket?.disconnect()
         self.removeFromSuperview()
         timer.invalidate()
+        if (!self.alone) {
+            self.socket?.emit("hangup")
+        }
     }
     
     func startTimer() {
         timer = Timer.scheduledTimer(timeInterval: 1, target: self,   selector: (#selector(PatchCallScreen.updateTimer)), userInfo: nil, repeats: true)
-        print(timer)
+//        print(timer)
     }
     
     func timeString(time:TimeInterval) -> String {
@@ -122,5 +267,25 @@ class PatchCallScreen: UIView {
     @objc func updateTimer() {
         seconds += 1     //This will increementthe seconds.
         timerLabel.text = timeString(time: TimeInterval(seconds))
+    }
+    
+    @IBAction func speakerHandler() {
+        if self.speakerStatus == false {
+            pjsipInstance.speakeron()
+            self.speakerStatus = true
+        } else if self.speakerStatus == true {
+            pjsipInstance.speakeroff()
+            self.speakerStatus = false
+        }
+    }
+    
+    @IBAction func muteHandler() {
+        if self.muteStatus == false {
+            pjsipInstance.mute()
+            self.muteStatus = true
+        } else if self.muteStatus == true {
+            pjsipInstance.unmute()
+            self.muteStatus = false
+        }
     }
 }

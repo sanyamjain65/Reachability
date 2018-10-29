@@ -24,7 +24,7 @@
 @property(strong , nonatomic)  NSString * callData;
 
 // The hooks for our plugin commands
-- (NSString *)start;
+- (NSString *)start: (NSString *)phone withHost:(NSString*) callSockHost;
 - (void)stop;
 - (void)hangup;
 - (void)mute;

@@ -8,21 +8,39 @@
 
 import Foundation
 import UIKit
-import Alamofire
-import SwiftyJSON
 import PatchFrameworkPrivate
 
-
 public class PatchApiCall {
-//    static var sigsockInstance: Sigsock? = Sigsock()
-//    var VC: UIViewController! = nil
-
+    static var sigsockInstance: Sigsock? = Sigsock()
+    static var patchDelegate = PatchDelegate()
     
-    public static func makeCall(viewController: UIViewController,withContext callContext: String) {
-        PatchDelegate.callManager.startCall(handle: callContext, videoEnabled: false)
+    public static func makeCall(withCC cc: String, withPhone phone:String,withContext callContext: String) {
+        PatchDelegate.sigsockInstance?.makeCall(withCC: cc, withPhone: phone, withContext: callContext, completion: { (res, err) in
+            if res != nil {
+                PatchDelegate.callManager.startCall(handle: callContext, videoEnabled: false)
+            } else{
+//                print(err!)
+            }
+        })
     }
     
-    public static func initSDK(withAccountId accountId: String, withApiKey apiKey: String, withName name: String, withCC cc: String, withPhone phone: String, completion: @escaping(String?, String?) -> ()) {
+    public static func registerVoIP(withRootView rootview: UIViewController) {
+        patchDelegate.registreVoIP(withRootView: rootview)
+    }
+    
+    public static func initSDK(withAccountId accountId: String, withApiKey apiKey: String, withName name: String, withPicture pitcure: String, withCC cc: String, withPhone phone: String, completion: @escaping(String?, String?) -> ()) {
+        if ((phone.count < 6) || (phone.count > 20) || !(CharacterSet.decimalDigits.isSuperset(of: CharacterSet(charactersIn: phone))) )  {
+            completion(nil, "Please pass the correct phone number")
+            return
+        }
+        if (cc.count < 1 || cc.count > 4) {
+            completion(nil, "Please pass the correct country code")
+            return
+        }
+        if (name.count > 25) {
+            completion(nil, "Name cannot be more than 25 characters long") 
+            return
+        }
         var components = URLComponents(string: APIEndpoint.url() + "api/accounts/\(accountId)/apikeys")!
         var items = [URLQueryItem]()
         items.append(URLQueryItem(name: "where", value: ["value":"\(apiKey)"] as? String))
@@ -43,41 +61,46 @@ public class PatchApiCall {
             do {
                 //create json object from data
                 if let json = try JSONSerialization.jsonObject(with: data, options: JSONSerialization.ReadingOptions.mutableContainers) as? [[String: Any]] {
-                    print(json)
+//                    print(json)
                     let res = json[0]
-                    let id = res["id"]
-                    if id != nil {
-                        self.registerContact(withPhone: phone, withCC: cc, withName: name, withAccountId: accountId, completion: { (res, err) in
-                            if res != nil {
-                                self.getToken(withAccountId: accountId, withCC: cc, withPhone: phone, completion: { (res, err) in
-                                    if res != nil {
-                                        completion("sdk is successgully initialized",nil)
-                                    } else {
-                                        completion(nil, "problem with user registration")
-                                    }
-                                })
-                            } else {
-                                completion(nil, "problem with user registration")
-                            }
-                        })
-                    } else {
-                        completion(nil,"something went wrong")
+                    guard let id = res["id"] else {
+                        completion(nil,"something went wrong. Server error")
+                        return
                     }
-                    print("id is \(String(describing: id))")
+                    if id != nil {
+                        let preferences  = UserDefaults.standard
+                        if preferences.object(forKey: "phone") == nil {
+//                            print("user is not yet registered")
+                            self.registerContact(withPhone: phone, withCC: cc, withName: name, withPitcure: pitcure, withApiKey: apiKey, withAccountId: accountId, completion: { (res, err) in
+                                if res != nil {
+                                     PatchDelegate.sigsockInstance?.initSigsock(withphone: phone, withcc: cc, withAccountId: accountId)
+                                } else {
+                                    completion(nil, "problem with user registration")
+                                }
+                            })
+                        } else {
+//                            print("user is already registered....fetching token")
+                            PatchDelegate.sigsockInstance?.initSigsock(withphone: phone, withcc: cc, withAccountId: accountId)
+                        }
+                    } else {
+                        completion(nil,"something went wrong. Please check the account credentials.")
+                    }
+//                    print("id is \(String(describing: id))")
                 }
                 
             } catch let error {
-                print(error.localizedDescription)
+//                print(error.localizedDescription)
             }
         })
         task.resume()
     }
     
-    public static func registerContact(withPhone phone: String, withCC cc: String, withName name: String, withAccountId accountId: String, completion: @escaping(String?, String?) -> ()) {
+    static func registerContact(withPhone phone: String, withCC cc: String, withName name: String, withPitcure picture: String, withApiKey apikey:String, withAccountId accountId: String, completion: @escaping(String?, String?) -> ()) {
+        let platform = "ios"
         let session = URLSession.shared
-        let url = URL(string: APIEndpoint.url() + "api/accounts/\(accountId)/contacts")
-        print("cc is \(cc), phone is \(phone), name is \(name)")
-        let postData = "cc=\(cc)&phone=\(phone)&name=\(name)&accountId=\(accountId)&pushtoken_ios=\(PatchDelegate.voipToken)".data(using: .utf8)
+        let url = URL(string: APIEndpoint.url() + "api/accounts/\(accountId)/contacts/signin")
+//        print("cc is \(cc), phone is \(phone), name is \(name)")
+        let postData = "cc=\(cc)&phone=\(phone)&name=\(name)&picure=\(picture)&pushtoken_ios=\(PatchDelegate.voipToken)&platform=\(platform)".data(using: .utf8)
         var request = URLRequest(url: url!)
         request.httpMethod = "POST"
         request.httpBody = postData
@@ -94,107 +117,48 @@ public class PatchApiCall {
             do {
                 //create json object from data
                 if let json = try JSONSerialization.jsonObject(with: data, options: JSONSerialization.ReadingOptions.mutableContainers) as? [String: Any] {
-                    print("user after registration is \(json)")
-                    let name = json["name"]
-                    let cc = json["cc"]
-                    let phone = json["phone"]
-                    let id = json["id"]
-                    print("id is\(String(describing: id)), name is \(String(describing: name)), phone is \(String(describing: phone)), cc is \(String(describing: cc))")
+//                    print("user after registration is \(json)")
+                    guard let name = json["name"] else{
+                        completion(nil,"something went wrong. Server error")
+                        return}
+                    guard let cc = json["cc"] else{
+                        completion(nil,"something went wrong. Server error")
+                        return}
+                    guard let phone = json["phone"] else{
+                        completion(nil,"something went wrong. Server error")
+                        return}
+//                    print(" name is \(String(describing: name)), phone is \(String(describing: phone)), cc is \(String(describing: cc))")
                     let preferences = UserDefaults.standard
                     preferences.set(name, forKey: "name")
                     preferences.set(cc, forKey: "cc")
                     preferences.set(phone, forKey: "phone")
-                    preferences.set(id, forKey: "id")
+                    preferences.set(accountId, forKey: "accountId")
+                    preferences.set(apikey, forKey: "apikey")
                     let didSave = preferences.synchronize()
                     if didSave{
-                        print("user deatils are successfuly stored in user defaults")
+//                        print("user deatils are successfuly stored in user defaults")
                     } else {
-                        print("problem storing user details in user defaults")
+//                        print("problem storing user details in user defaults")
                     }
                     completion("user is successfully registered", nil)
                 }
             } catch let error {
-                print(error.localizedDescription)
+//                print(error.localizedDescription)
                 completion(nil, "failed")
             }
         })
         task.resume()
     }
     
-    public static func getToken(withAccountId accountId: String, withCC cc: String, withPhone phone: String, completion: @escaping(_ response: String?, _ error: String?) -> ()) {
-        
-        var components = URLComponents(string: APIEndpoint.url() + "api/contacts/jwt")!
-        var items = [URLQueryItem]()
-        items.append(URLQueryItem(name: "cc", value: cc))
-        items.append(URLQueryItem(name: "phone", value: phone))
-        items.append(URLQueryItem(name: "accountId", value: accountId))
-        components.queryItems = items
-        var urlRequest = URLRequest(url: components.url!)
-        urlRequest.httpMethod = "GET"
-        let config = URLSessionConfiguration.default
-        let session = URLSession(configuration: config)
-        let task = session.dataTask(with: urlRequest as URLRequest, completionHandler: { data, response, error in
-            guard error == nil else {
-                completion(nil, "token cannot be fetched")
-                return
-            }
-            
-            guard let data = data else {
-                completion(nil, "token cannot be fetched")
-                return
-            }
-            
-            do {
-                //create json object from data
-                if let json = try JSONSerialization.jsonObject(with: data, options: JSONSerialization.ReadingOptions.mutableContainers) as? [String: Any] {
-                    print(json)
-                    let jwtToken = json["token"]
-                    print("jwt token is \(String(describing: jwtToken))")
-                    if(jwtToken == nil) {
-                        completion(nil, "token cannot be fetched")
-                    } else {
-                        completion("token is fetched successfully",nil)
-                    }
-                }
-            } catch let error {
-                completion(nil, "token cannot be fetched")
-                print(error.localizedDescription)
-            }
-        })
-        task.resume()
-    }
-//
-//    func setDeviceToken(cc: String, phone: String, name: String, contactID: String, completion: @escaping(String?, String?) -> ()) {
-//        let session = URLSession.shared
-//        let url = URL(string: APIEndpoint.url() + "api/contacts/\(contactID)")
-//        print("cc is \(cc), phone is \(phone), name is \(name)")
-//        let postData = "cc=\(cc)&phone=\(phone)&name=\(name)&pushtoken_ios=\(PatchDelegate.voipToken)&id=\(contactID)".data(using: .utf8)
-//        var request = URLRequest(url: url!)
-//        request.httpMethod = "PATCH"
-//        request.httpBody = postData
-//
-//        let task = session.dataTask(with: request as URLRequest, completionHandler: { data, response, error in
-//            guard error == nil else {
-//                completion(nil, "failed")
-//                return
-//            }
-//            guard let data = data else {
-//                completion(nil, "failed")
-//                return
-//            }
-//            do {
-//                //create json object from data
-//                if let json = try JSONSerialization.jsonObject(with: data, options: JSONSerialization.ReadingOptions.mutableContainers) as? [String: Any] {
-//                    print(json)
-//                    print("device token is successfully set")
-//                    completion("device token is successfully set in user", nil)
-//                }
-//            } catch let error {
-//                print(error.localizedDescription)
-//                completion(nil, "failed")
-//            }
-//        })
-//        task.resume()
-//    }
     
+    
+    public static func logout() {
+        let preferences = UserDefaults.init()
+        preferences.removeObject(forKey: "id")
+        preferences.removeObject(forKey: "name")
+        preferences.removeObject(forKey: "cc")
+        preferences.removeObject(forKey: "phone")
+        preferences.removeObject(forKey: "accountId")
+        preferences.removeObject(forKey: "apikey")
+    }
 }

@@ -7,7 +7,6 @@
 //
 
 import Foundation
-import Alamofire
 
 class APIEndpoint {
     class func url() -> String {
@@ -15,12 +14,12 @@ class APIEndpoint {
         return url
     }
     
-    class func headers() -> HTTPHeaders {
-        let headers: HTTPHeaders = [
-            "Content-Type": "application/json",
-            "patch-api-key": "$2a$06$N7c/MWVaoBbVUtCm/HEWZutCau6wRBfbvHw5tVXpBk87tBqjsVCN6",
-            "patch-client-type": "patch_charlotte"
-        ]
-        return headers
-    }
+//    class func headers() -> HTTPHeaders {
+//        let headers: HTTPHeaders = [
+//            "Content-Type": "application/json",
+//            "patch-api-key": "$2a$06$N7c/MWVaoBbVUtCm/HEWZutCau6wRBfbvHw5tVXpBk87tBqjsVCN6",
+//            "patch-client-type": "patch_charlotte"
+//        ]
+//        return headers
+//    }
 }

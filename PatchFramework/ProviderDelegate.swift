@@ -22,7 +22,7 @@ class ProviderDelegate: NSObject {
         
         super.init()
         // 3.
-        provider.setDelegate((self as! CXProviderDelegate), queue: nil)
+        provider.setDelegate((self as CXProviderDelegate), queue: nil)
     }
     
     // 4.
@@ -50,7 +50,7 @@ class ProviderDelegate: NSObject {
             }
             
             // 4.
-            completion?(error as? NSError)
+            completion?(error as NSError?)
         }
     }
     
