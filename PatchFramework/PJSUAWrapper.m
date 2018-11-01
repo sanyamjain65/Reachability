@@ -9,10 +9,16 @@ pj_status_t status;
 static pjsua_acc_id acc_id;
 pjsua_call_id callId  ;
 pjsua_call_info ci;
-- (NSString *) start {
+- (NSString *) start: (NSString*) phone withHost:(NSString *)callSockHost {
     @try {
-        NSString *num = @"917042437761";
-        NSString *host =  @"sphere.patchus.in";
+        pj_log_set_level(0);
+//        NSLog(@"phone is: %@", phone);
+//        NSLog(@"host is: %@", callSockHost);
+        
+        printf("phone number is    :   %s", phone) ;
+        
+        NSString *num = phone;
+        NSString *host =  callSockHost;
         status = pjsua_create();
         if (status != PJ_SUCCESS) error_exit("Error in pjsua_create()", status);
         /* Init pjsua */
@@ -23,7 +29,7 @@ pjsua_call_info ci;
         cfg_log.cb.on_call_media_state = &on_call_media_state;
         cfg_log.cb.on_call_state = &on_call_state;
         pjsua_logging_config_default(&log_cfg);
-        log_cfg.console_level = 4;
+        log_cfg.console_level = 0;
         status = pjsua_init(&cfg_log, &log_cfg, NULL);
         if (status != PJ_SUCCESS) error_exit("Error in pjsua_init()", status);
         pjsua_transport_config  tcfg;
@@ -37,16 +43,19 @@ pjsua_call_info ci;
         NSString *string2 = @"@";
         NSString *string3 = @":7503;transport=tcp";
         NSString *string4 = @";transport=tcp";
+        NSString *password = @"_patch";
         NSString *uri = [string1 stringByAppendingString:num];
         NSString *reg = [string2 stringByAppendingString:host];
         NSString *newUri = [uri stringByAppendingString:reg];
         NSString *proxy = [string1 stringByAppendingString:host];
         NSString *reg_uri = [proxy stringByAppendingString:string4];
+        NSString *pass = [num stringByAppendingString: password];
         proxy = [proxy stringByAppendingString:string3];
         const char *c = [newUri UTF8String];
         const char *r = [reg_uri UTF8String];
         const char *p = [proxy UTF8String];
         const char *number = [num UTF8String];
+        const char *pjsipPassword = [pass UTF8String];
         pjsua_acc_config cfg;
         pjsua_acc_config_default(&cfg);
         cfg.id = pj_str(c);
@@ -57,7 +66,7 @@ pjsua_call_info ci;
         cfg.cred_info[0].scheme = pj_str("digest");
         cfg.cred_info[0].username = pj_str(number);
         cfg.cred_info[0].data_type = PJSIP_CRED_DATA_PLAIN_PASSWD;
-        cfg.cred_info[0].data = pj_str("patch");
+        cfg.cred_info[0].data = pj_str(pjsipPassword);
         status = pjsua_acc_add(&cfg, PJ_TRUE, &acc_id);
         
         //    if (status != PJ_SUCCESS) error_exit("Error adding account", status);
@@ -86,7 +95,7 @@ static void on_call_state(pjsua_call_id call_id, pjsip_event *e)
 {
     PJ_UNUSED_ARG(e);
     pjsua_call_get_info(call_id, &ci);
-    PJ_LOG(3,("App", "Call %d state=%.*s", call_id,
+    PJ_LOG(1,("App", "Call %d state=%.*s", call_id,
               (int)ci.state_text.slen,
               ci.state_text.ptr));
     
@@ -126,7 +135,7 @@ static void on_incoming_call(pjsua_acc_id acc_id, pjsua_call_id call_id,
     PJ_UNUSED_ARG(acc_id);
     PJ_UNUSED_ARG(rdata);
     pjsua_call_get_info(call_id, &ci);
-    PJ_LOG(3,("App", "Incoming call from %.*s!!",
+    PJ_LOG(1,("App", "Incoming call from %.*s!!",
               (int)ci.remote_info.slen,
               ci.remote_info.ptr));
     setCallid(call_id) ;
@@ -189,7 +198,6 @@ void answercall () {
     if (!success) NSLog(@"AVAudioSession error setActive: %@", [error localizedDescription]);
     
 }
-
 - (void)unmute
 {
     pjsua_conf_adjust_tx_level(ci.conf_slot , 1);
@@ -200,13 +208,10 @@ void answercall () {
     pjsua_conf_adjust_tx_level(ci.conf_slot , 0) ;
     
 }
-
-
 - (void)stop
 {
     pjsua_call_hangup_all();
     pjsua_destroy();
-    
 }
 
 - (void)playRingtone
@@ -216,7 +221,4 @@ void answercall () {
     AudioServicesCreateSystemSoundID((__bridge_retained CFURLRef)fileURL,&soundID);
     AudioServicesPlaySystemSound(soundID);
 }
-
-
-
 @end
