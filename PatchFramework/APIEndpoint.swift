@@ -10,7 +10,13 @@ import Foundation
 
 class APIEndpoint {
     class func url() -> String {
-        let url:String  = "https://gateway.patchus.in/"
+        let url:String  = "http://gateway-demo.patchus.in:1337/"
+//        let url:String  = "https://gateway.patchus.in/"
+        return url
+    }
+    
+    class func analyticsURl() -> String {
+        let url:String = "https://analytics-internal-001.patchus.in/"
         return url
     }
     

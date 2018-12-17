@@ -18,6 +18,43 @@ class Singleton {
     var sid: String = ""
     var initiatorId: String = ""
     var host: String = ""
+    var isSigsockRunning: Bool = false
+    let imageCache = NSCache<NSString, UIImage>()
+    var isPstn: Bool = false
+    var calleePhone: String = ""
+    var calleeCC: String = ""
+    
+    func setCalleeCc(cc: String) {
+        self.calleeCC = cc
+    }
+    
+    func getCalleeCc() -> String {
+        return calleeCC
+    }
+    
+    func setCalleePhone(phone: String) {
+        self.calleePhone = phone
+    }
+    
+    func getCalleePhone() -> String {
+        return self.calleePhone
+    }
+    
+    func setIsPSTN(isPstn: Bool) {
+        self.isPstn = isPstn
+    }
+    
+    func getIsPstn() -> Bool {
+        return self.isPstn
+    }
+    
+    func setIsSigsockRunning(isSigsockRunning: Bool) {
+        self.isSigsockRunning = isSigsockRunning
+    }
+    
+    func getIsSigsockRunning() -> Bool {
+        return self.isSigsockRunning
+    }
     
     func setHost(host: String) {
         self.host = host

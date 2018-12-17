@@ -34,9 +34,13 @@ func configureAudioSession() {
 }
 
 func startAudio() {
-  print("Starting audio")
+    if staging {
+        print("Starting audio")
+    }
 }
 
 func stopAudio() {
-  print("Stopping audio")
+    if staging {
+        print("Stopping audio")
+    }
 }

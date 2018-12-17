@@ -9,13 +9,13 @@ pj_status_t status;
 static pjsua_acc_id acc_id;
 pjsua_call_id callId  ;
 pjsua_call_info ci;
-- (NSString *) start: (NSString*) phone withHost:(NSString *)callSockHost {
+- (NSString *) start: (NSString*) phone withHost:(NSString *)callSockHost withMode: (BOOL) staging {
     @try {
         pj_log_set_level(0);
 //        NSLog(@"phone is: %@", phone);
 //        NSLog(@"host is: %@", callSockHost);
         
-        printf("phone number is    :   %s", phone) ;
+//        printf("phone number is    :   %s", phone) ;
         
         NSString *num = phone;
         NSString *host =  callSockHost;
@@ -29,7 +29,11 @@ pjsua_call_info ci;
         cfg_log.cb.on_call_media_state = &on_call_media_state;
         cfg_log.cb.on_call_state = &on_call_state;
         pjsua_logging_config_default(&log_cfg);
-        log_cfg.console_level = 0;
+        if (staging) {
+            log_cfg.console_level = 4;
+        } else {
+            log_cfg.console_level = 0;
+        }
         status = pjsua_init(&cfg_log, &log_cfg, NULL);
         if (status != PJ_SUCCESS) error_exit("Error in pjsua_init()", status);
         pjsua_transport_config  tcfg;
