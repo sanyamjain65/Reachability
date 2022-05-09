@@ -1,4 +1,7 @@
 import SocketIO
+import PatchFrameworkPrivate
+
+
 
 class Sigsock {
     var  manager: SocketManager? = nil
@@ -132,6 +135,48 @@ class Sigsock {
             //            print(data)
         }
         
+        socket?.on("message") { data, ack in
+            if staging {
+                print("chat recieved")
+                print(data)
+            }
+            let chatAck: [String: Any] = [
+                "status": true
+            ]
+            ack.with(chatAck)
+            let dataArray = data as NSArray
+            guard let chatData = dataArray[0] as? NSDictionary else {
+                return
+            }
+            guard let messageData: String = (chatData["message"] as? String)! else {
+                return
+            }
+            if staging {
+                print("message data is \(String(describing: messageData))")
+            }
+            let preferences  = UserDefaults.standard
+            let accountId = preferences.object(forKey: "accountId")
+            if staging {
+                print("accountID is \(String(describing: accountId))")
+            }
+            let cryptLib = CryptLib()
+            let decryptedString = cryptLib.decryptCipherTextRandomIV(withCipherText: messageData as? String, key: accountId as! String)
+//            let newData = Data(messageData.utf8)
+//            do {
+//                let originalData = try RNCryptor.decrypt(data: messageData as! Data, withPassword: accountId as! String)
+//                if staging {
+//                    print("original data is \(originalData)")
+//                }
+//            } catch {
+//                print("error is \(error.localizedDescription)")
+//            }
+            if staging {
+                print("decrypted message is \(String(describing: decryptedString))")
+            }
+            let message:[String: String] = ["message": decryptedString!]
+            NotificationCenter.default.post(Notification(name: Notification.Name(rawValue: "MessageReceived"),object: "chat", userInfo: message))
+        }
+        
         socket?.on("incoming_call") { data, ack in
             if staging {
                 print("recieved incoming call event")
@@ -189,7 +234,7 @@ class Sigsock {
         
     }
     
-    func makeCall(withCC cc: String, withPhone phone: String, withContext context: String, tags: [String], isPstn pstn: Bool ,completion: @escaping(String?, String?) -> ()) {
+    func makeCall(withCC cc: String, withPhone phone: String, withContext context: String, tags: [String], isPstn pstn: Bool , withWebhook webhook: String, completion: @escaping(String?, String?) -> ()) {
         if staging {
             print("trying to make a call.....")
         }
@@ -197,8 +242,13 @@ class Sigsock {
             "cc":cc,
             "phone": phone,
             "pstn": pstn,
-            "context": context
+            "context": context,
+            "webhook": webhook
+            
         ]
+        if staging {
+            print("data for make call is \(personToCall)")
+        }
         socket?.emitWithAck("makecall", personToCall).timingOut(after: 20) {data in
             if staging {
                 print("data in make call is \(data)")
@@ -228,6 +278,7 @@ class Sigsock {
                 completion(nil, "Server error while making a call.")
                 return}
             if pstn == true {
+                
                 Singleton.shared.setIsPSTN(isPstn: true)
                 Singleton.shared.setCalleeCc(cc: cc)
                 Singleton.shared.setCalleePhone(phone: phone)
@@ -249,6 +300,7 @@ class Sigsock {
             }
         }
     }
+    
     func answer(initiatorId: String, accountId: String, callId: String, sid: String) {
         if staging {
             print("calling answer")
@@ -292,6 +344,31 @@ class Sigsock {
     func cancel(callID: String) {
         socket?.emitWithAck("cancel", callID).timingOut(after: 5, callback: { (data) in
             print("call is cancelled")
+        })
+    }
+    
+    func sendMessage(cc: String, phone: String, message: String, completion: @escaping(String?, String?) -> ()) {
+//        let data: NSData = message.data(using: String.Encoding.utf8)! as NSData
+////        let data: NSData = Data(message.utf8) as NSData
+//        print("data is \(data)")
+        let cryptlib = CryptLib()
+        let preferences  = UserDefaults.standard
+        let accountId = preferences.object(forKey: "accountId")
+        let cipherText = cryptlib.encryptPlainTextRandomIV(withPlainText: message, key: accountId as? String)
+//        let ciphertext = RNCryptor.encrypt(data: message.data(using: String.Encoding.utf8)!, withPassword: accountId as! String)
+        print("cipherText is \(String(describing: cipherText?.description))")
+//        let encryptedString : String = ciphertext.base64EncodedString()
+//        let messageString = String(data: ciphertext, encoding: .utf8)
+//        let messageString = String(bytes: ciphertext, encoding: String.Encoding.utf8)
+//        print("encryptedString is \(String(describing: encryptedString))")
+        let messageData : [String : Any] = [
+            "cc": cc,
+            "phone": phone,
+            "body": cipherText!
+            ]
+        print("message is \(messageData)")
+        socket?.emitWithAck("message", messageData).timingOut(after: 5, callback: { (data) in
+            print("chat is \(data)")
         })
     }
     

@@ -7,5 +7,6 @@
 module PatchFrameworkPrivate {
     header "../PJSUAWrapper.h"
     header "../CallCFunction.h"
+    header "../CryptLib.h"
     export *
 }

@@ -221,7 +221,9 @@ class PatchCallScreen: UIView {
             "phone": phone,
             "callId": Singleton.shared.getCallId()
         ]
+        
         if staging {
+            print("authdata is \(authData)")
             manager = SocketManager(socketURL:  URL(string: "https://" + Singleton.shared.getHost() + ":3001")!, config:[.log(true),.forceNew(true),.reconnectAttempts(5),.reconnectWait(6000),.connectParams(["jwt":Singleton.shared.getJwtToken()]), .forceWebsockets(true),.compress])
             socket = manager?.defaultSocket
         } else {
@@ -238,6 +240,7 @@ class PatchCallScreen: UIView {
                 print("socket disconnected")
                 print(data)
             }
+            self.socket = nil
         }
         socket?.on(clientEvent: .error) {data, ack in
             if staging {
@@ -358,6 +361,23 @@ class PatchCallScreen: UIView {
     }
     
     func startOutgoingTone() {
+//        do {
+            //        guard let url = URL.init(string: "https://s3.ap-south-1.amazonaws.com/sdkassets/outgoing-tone.mp3") else { return }
+            //        try AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategoryPlayAndRecord)
+            //        try AVAudioSession.sharedInstance().setActive(true)
+            //        let playerItem = AVPlayerItem.init(url: url)
+            //        player = AVPlayer.init(playerItem: playerItem)
+            //        //        player?.seek(to: kCMTimeIndefinite)
+            //        player?.play()
+            //        NotificationCenter.default.addObserver(forName: .AVPlayerItemDidPlayToEndTime, object: self.player?.currentItem, queue: .main) { [weak self] _ in
+            //            self?.player?.seek(to: kCMTimeZero)
+            //            self?.player?.play()
+            //        }
+            //        } catch let error {
+            //                        if staging {
+            //                            print(error.localizedDescription)
+            //                        }
+            //                    }
         guard let url = Bundle.main.url(forResource: "outgoing_tone", withExtension: "mp3") else { return }
         do {
             try AVAudioSession.sharedInstance().setCategory(AVAudioSessionCategoryPlayAndRecord)
@@ -428,35 +448,67 @@ class PatchCallScreen: UIView {
     @objc func voipTimer() {
         sec -= 1
         if sec == 0 {
-            //            print("call me voip","")
-            socket?.emitWithAck("call_voip","").timingOut(after: 20) { data in
-                //                print("data in call voip \(data)")
-                guard let callVoipData = data[0] as? NSDictionary else {
-                    return
-                }
-                guard let status: Bool = callVoipData["status"] as? Bool else {
-                    return
-                }
-                if status {
-                    self.player?.stop()
+            if Singleton.shared.getIsPstn() == true {
+                let callPstndata: [String: Any] = [
+                    "cc": Singleton.shared.calleeCC,
+                    "phone": Singleton.shared.calleePhone,
+                    ]
+                self.socket?.emitWithAck("call_pstn", callPstndata).timingOut(after: 20) { (data) in
                     if staging {
-                        print("ack of call voip recieved")
+                        print("data in call pstn\(data)")
                     }
-                    if Singleton.shared.getIsPstn() == true {
-                        let callPstndata: [String: Any] = [
-                            "cc": Singleton.shared.calleeCC,
-                            "phone": Singleton.shared.calleePhone,
-                        ]
-                        self.socket?.emitWithAck("call_pstn", callPstndata).timingOut(after: 5, callback: { (data) in
+                    guard let callPstnData = data[0] as? NSDictionary else {
+                        return
+                    }
+                    guard let status: Bool = callPstnData["status"] as? Bool else {
+                        return
+                    }
+                    if status {
+                        self.player?.stop()
+                        if staging {
+                            print("ack of call pstn recieved")
+                        }
+                        self.socket?.emitWithAck("call_voip","").timingOut(after: 5) { data in
                             if staging {
-                                print("pstn call is made to \(callPstndata)")
+                                print("data in call voip \(data)")
                             }
-                        })
+                            guard let callVoipData = data[0] as? NSDictionary else {
+                                return
+                            }
+                            guard let status: Bool = callVoipData["status"] as? Bool else {
+                                return
+                            }
+                            if status {
+                                if staging {
+                                    print("ack of call voip recieved")
+                                }
+                            } else {
+                                self.close()
+                            }
+                        }
+                    } else {
+                        self.close()
                     }
-                    
-                    
-                } else {
-                    self.close()
+                }
+            } else {
+                self.socket?.emitWithAck("call_voip","").timingOut(after: 20) { data in
+                    if staging {
+                        print("data in call voip \(data)")
+                    }
+                    guard let callVoipData = data[0] as? NSDictionary else {
+                        return
+                    }
+                    guard let status: Bool = callVoipData["status"] as? Bool else {
+                        return
+                    }
+                    if status {
+                        self.player?.stop()
+                        if staging {
+                            print("ack of call voip recieved")
+                        }
+                    } else {
+                        self.close()
+                    }
                 }
             }
             callVoipTimer.invalidate()
@@ -481,6 +533,7 @@ class PatchCallScreen: UIView {
             pjsipInstance.stop()
             Singleton.shared.setPjsipStatus(status: false)
         }
+        NotificationCenter.default.post(Notification(name: Notification.Name(rawValue: "MessageReceived"),object: "callEnded"))
         Singleton.shared.setIsPSTN(isPstn: false)
         Singleton.shared.setCalleePhone(phone: "")
         Singleton.shared.setCalleeCc(cc: "")
@@ -497,6 +550,7 @@ class PatchCallScreen: UIView {
         }
         self.socket?.removeAllHandlers()
         self.socket?.disconnect()
+        self.socket = nil
         timer.invalidate()
         self.removeFromSuperview()
     }
@@ -516,6 +570,7 @@ class PatchCallScreen: UIView {
             pjsipInstance.stop()
             Singleton.shared.setPjsipStatus(status: false)
         }
+        NotificationCenter.default.post(Notification(name: Notification.Name(rawValue: "MessageReceived"),object: "callEnded"))
         Singleton.shared.setIsPSTN(isPstn: false)
         Singleton.shared.setCalleePhone(phone: "")
         Singleton.shared.setCalleeCc(cc: "")
@@ -530,6 +585,7 @@ class PatchCallScreen: UIView {
         }
         self.socket?.removeAllHandlers()
         self.socket?.disconnect()
+        self.socket = nil
         self.removeFromSuperview()
         timer.invalidate()
     }
@@ -554,6 +610,14 @@ class PatchCallScreen: UIView {
     }
     
     @IBAction func speakerHandler() {
+//        if staging {
+//            print("call id is \(Singleton.shared.getCallId())")
+//        }
+//        self.socket?.emitWithAck("record_call", Singleton.shared.getCallId()).timingOut(after: 5, callback: { (data) in
+//            if staging {
+//                print("call recording is set to true \(data)")
+//            }
+//        })
         if self.speakerStatus == false {
             pjsipInstance.speakeron()
             self.speakerStatus = true

@@ -7,7 +7,7 @@
 
 pj_status_t status;
 static pjsua_acc_id acc_id;
-pjsua_call_id callId  ;
+pjsua_call_id callId;
 pjsua_call_info ci;
 - (NSString *) start: (NSString*) phone withHost:(NSString *)callSockHost withMode: (BOOL) staging {
     @try {

@@ -7,10 +7,13 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		D91BAAF621ECA4750024CD91 /* Reachability.swift in Sources */ = {isa = PBXBuildFile; fileRef = D91BAAF521ECA4750024CD91 /* Reachability.swift */; };
 		D92BBD23217C6F070053F826 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D92BBD12217C6F070053F826 /* AVFoundation.framework */; };
 		D92BBD9A217F83230053F826 /* patch@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D92BBD99217F83230053F826 /* patch@2x.png */; };
 		D94503DF2154FBA900CF0FB5 /* SocketIO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D94503DC2154FB8000CF0FB5 /* SocketIO.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		D94503E02154FBA900CF0FB5 /* Starscream.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D94503CB2154FB7B00CF0FB5 /* Starscream.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
+		D94A53E921D4C3CC00A9CC53 /* CryptLib.m in Sources */ = {isa = PBXBuildFile; fileRef = D94A53E821D4C3CB00A9CC53 /* CryptLib.m */; };
+		D94A53EB21D4D1C400A9CC53 /* CryptLib.h in Headers */ = {isa = PBXBuildFile; fileRef = D94A53EA21D4D1C300A9CC53 /* CryptLib.h */; };
 		D94AFBB02158D0D8009CFDE5 /* Group 387.png in Resources */ = {isa = PBXBuildFile; fileRef = D94AFBAF2158D0D8009CFDE5 /* Group 387.png */; };
 		D94AFBB22158D0EF009CFDE5 /* Group 386.png in Resources */ = {isa = PBXBuildFile; fileRef = D94AFBB12158D0EF009CFDE5 /* Group 386.png */; };
 		D99EA0F321537BD70085299D /* Sigsock.swift in Sources */ = {isa = PBXBuildFile; fileRef = D99EA0F221537BD70085299D /* Sigsock.swift */; };
@@ -48,7 +51,6 @@
 		D9E451082158F9A5008B1F8B /* disconnect.png in Resources */ = {isa = PBXBuildFile; fileRef = D94F2E3D2153C5AE00107679 /* disconnect.png */; };
 		D9E451092158F9A9008B1F8B /* connect.png in Resources */ = {isa = PBXBuildFile; fileRef = D94F2E2E2153C5AA00107679 /* connect.png */; };
 		D9E4510F215BAA96008B1F8B /* PatchCallScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = D9E4510E215BAA96008B1F8B /* PatchCallScreen.xib */; };
-		D9E45120215CFB19008B1F8B /* ProviderDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9E4511F215CFB19008B1F8B /* ProviderDelegate.swift */; };
 		D9E45124215CFE2B008B1F8B /* Call.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9E45122215CFE2B008B1F8B /* Call.swift */; };
 		D9E45125215CFE2B008B1F8B /* CallManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9E45123215CFE2B008B1F8B /* CallManager.swift */; };
 		D9E45128215CFE73008B1F8B /* Audio.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9E45127215CFE72008B1F8B /* Audio.swift */; };
@@ -115,10 +117,13 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		D91BAAF521ECA4750024CD91 /* Reachability.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Reachability.swift; sourceTree = "<group>"; };
 		D92BBD12217C6F070053F826 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		D92BBD99217F83230053F826 /* patch@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "patch@2x.png"; sourceTree = "<group>"; };
 		D94503BE2154FB7A00CF0FB5 /* Starscream.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Starscream.xcodeproj; path = Starscream/Starscream.xcodeproj; sourceTree = "<group>"; };
 		D94503D52154FB8000CF0FB5 /* Socket.IO-Client-Swift.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = "Socket.IO-Client-Swift.xcodeproj"; path = "socket.io-client-swift/Socket.IO-Client-Swift.xcodeproj"; sourceTree = "<group>"; };
+		D94A53E821D4C3CB00A9CC53 /* CryptLib.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CryptLib.m; sourceTree = "<group>"; };
+		D94A53EA21D4D1C300A9CC53 /* CryptLib.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CryptLib.h; sourceTree = "<group>"; };
 		D94AFA8521551B25009CFDE5 /* SocketIO.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = SocketIO.framework; sourceTree = "<group>"; };
 		D94AFA8621551B26009CFDE5 /* Starscream.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Starscream.framework; sourceTree = "<group>"; };
 		D94AFBAF2158D0D8009CFDE5 /* Group 387.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Group 387.png"; sourceTree = "<group>"; };
@@ -165,7 +170,6 @@
 		D9B3F9CC2151208B00AB46D2 /* PushKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PushKit.framework; path = System/Library/Frameworks/PushKit.framework; sourceTree = SDKROOT; };
 		D9B3FA6021523FEF00AB46D2 /* CallKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CallKit.framework; path = System/Library/Frameworks/CallKit.framework; sourceTree = SDKROOT; };
 		D9E4510E215BAA96008B1F8B /* PatchCallScreen.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PatchCallScreen.xib; sourceTree = "<group>"; };
-		D9E4511F215CFB19008B1F8B /* ProviderDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProviderDelegate.swift; sourceTree = "<group>"; };
 		D9E45122215CFE2B008B1F8B /* Call.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Call.swift; sourceTree = "<group>"; };
 		D9E45123215CFE2B008B1F8B /* CallManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CallManager.swift; sourceTree = "<group>"; };
 		D9E45127215CFE72008B1F8B /* Audio.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Audio.swift; sourceTree = "<group>"; };
@@ -246,6 +250,18 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		D94CCF9321C8CA1200259DA0 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				D94AFBB12158D0EF009CFDE5 /* Group 386.png */,
+				D94AFBAF2158D0D8009CFDE5 /* Group 387.png */,
+				D92BBD99217F83230053F826 /* patch@2x.png */,
+				D94F2E3D2153C5AE00107679 /* disconnect.png */,
+				D94F2E2E2153C5AA00107679 /* connect.png */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
 		D9B3F8AC21510E2C00AB46D2 = {
 			isa = PBXGroup;
 			children = (
@@ -290,27 +306,25 @@
 			children = (
 				D94AFA8521551B25009CFDE5 /* SocketIO.framework */,
 				D94AFA8621551B26009CFDE5 /* Starscream.framework */,
+				D94CCF9321C8CA1200259DA0 /* Resources */,
 				D9B3F90F215110D400AB46D2 /* PatchFrameworkPrivate */,
 				D9E45126215CFE53008B1F8B /* Audio */,
 				D9E45121215CFDEE008B1F8B /* Call Management */,
 				D9E45129215D0EE8008B1F8B /* Singleton Classes */,
 				D9B3F8DE21510E6E00AB46D2 /* PatchDelegate.swift */,
-				D94AFBB12158D0EF009CFDE5 /* Group 386.png */,
-				D94AFBAF2158D0D8009CFDE5 /* Group 387.png */,
 				D9B3F8D221510E4F00AB46D2 /* APIEndpoint.swift */,
-				D92BBD99217F83230053F826 /* patch@2x.png */,
-				D94F2E3D2153C5AE00107679 /* disconnect.png */,
-				D94F2E2E2153C5AA00107679 /* connect.png */,
 				D9B3F8D021510E4F00AB46D2 /* PatchApiCall.swift */,
 				D9B3F8D521510E4F00AB46D2 /* PatchCallScreen.swift */,
 				D9E4510E215BAA96008B1F8B /* PatchCallScreen.xib */,
 				D9B3F8B921510E2C00AB46D2 /* PatchFramework.h */,
-				D9B3F8BA21510E2C00AB46D2 /* Info.plist */,
-				D9B3F8E021510EEB00AB46D2 /* CallCFunction.h */,
 				D9B3F8E621510F9B00AB46D2 /* PJSUAWrapper.h */,
+				D9B3F8E021510EEB00AB46D2 /* CallCFunction.h */,
 				D9B3F8E821510FB900AB46D2 /* PJSUAWrapper.m */,
+				D94A53EA21D4D1C300A9CC53 /* CryptLib.h */,
+				D94A53E821D4C3CB00A9CC53 /* CryptLib.m */,
+				D9B3F8BA21510E2C00AB46D2 /* Info.plist */,
 				D99EA0F221537BD70085299D /* Sigsock.swift */,
-				D9E4511F215CFB19008B1F8B /* ProviderDelegate.swift */,
+				D91BAAF521ECA4750024CD91 /* Reachability.swift */,
 			);
 			path = PatchFramework;
 			sourceTree = "<group>";
@@ -357,6 +371,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				D9B3F8E721510F9B00AB46D2 /* PJSUAWrapper.h in Headers */,
+				D94A53EB21D4D1C400A9CC53 /* CryptLib.h in Headers */,
 				D9B3F8E121510EEB00AB46D2 /* CallCFunction.h in Headers */,
 				D9B3F8C721510E2C00AB46D2 /* PatchFramework.h in Headers */,
 			);
@@ -513,14 +528,15 @@
 			files = (
 				D99EA0F321537BD70085299D /* Sigsock.swift in Sources */,
 				D9E4512B215D0F0C008B1F8B /* Singleton.swift in Sources */,
+				D91BAAF621ECA4750024CD91 /* Reachability.swift in Sources */,
 				D9E45124215CFE2B008B1F8B /* Call.swift in Sources */,
 				D9E45128215CFE73008B1F8B /* Audio.swift in Sources */,
 				D9B3F8DF21510E6E00AB46D2 /* PatchDelegate.swift in Sources */,
 				D9B3F8E921510FB900AB46D2 /* PJSUAWrapper.m in Sources */,
 				D9B3F8DC21510E5000AB46D2 /* PatchCallScreen.swift in Sources */,
+				D94A53E921D4C3CC00A9CC53 /* CryptLib.m in Sources */,
 				D9B3F8D721510E5000AB46D2 /* PatchApiCall.swift in Sources */,
 				D9B3F8D921510E5000AB46D2 /* APIEndpoint.swift in Sources */,
-				D9E45120215CFB19008B1F8B /* ProviderDelegate.swift in Sources */,
 				D9E45125215CFE2B008B1F8B /* CallManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

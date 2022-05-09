@@ -10,3 +10,12 @@
 [submodule "Starscream"]
 	path = Starscream
 	url = https://github.com/daltoniam/Starscream.git
+[submodule "SwiftMsgPack"]
+	path = SwiftMsgPack
+	url = https://github.com/malcommac/SwiftMsgPack.git
+[submodule "RNCryptor"]
+	path = RNCryptor
+	url = https://github.com/RNCryptor/RNCryptor.git
+[submodule "Cross-Platform-AES"]
+	path = Cross-Platform-AES
+	url = https://github.com/skavinvarnan/Cross-Platform-AES.git

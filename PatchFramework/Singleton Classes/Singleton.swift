@@ -23,6 +23,7 @@ class Singleton {
     var isPstn: Bool = false
     var calleePhone: String = ""
     var calleeCC: String = ""
+    var webhook: String = ""
     
     func setCalleeCc(cc: String) {
         self.calleeCC = cc
